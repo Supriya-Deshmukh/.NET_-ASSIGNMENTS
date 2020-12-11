@@ -1,0 +1,249 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lambda_Assignment
+{
+    class Program
+    {
+        static void Main1(string[] args)         // Q1
+        {
+            Func<decimal, decimal, decimal, decimal> o1 = (P, R, N) => (P * R * N) / 100;
+
+            Console.WriteLine(("Simple Interest:" +o1(10000, 5, (decimal)3.5)));
+                Console.ReadLine();
+            
+        }
+
+
+        static void Main2() {        //Q2
+            Func<int, int, bool> o2 = (a, b) =>
+            {
+
+                if (a > b)
+                {
+
+                    return true;
+                }
+                else
+                {
+
+                    return false;
+                }
+            };
+
+            Console.WriteLine(o2(50, 20));
+            Console.ReadLine();
+
+
+        }
+
+
+        static void Main4() {    //Q4
+            Predicate<int> o1 = (num) =>
+            {
+                if (num % 2 == 0)
+                {
+                    return true;
+
+                }
+                else
+                {
+
+                    return false;
+                }
+
+            };
+            Console.WriteLine(o1(155));
+            Console.ReadLine();
+        
+        }
+
+
+        static void Main5()         //Q5
+        {     
+            Predicate<int> o3 = (a) =>
+            {
+                if (a > 10000)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            };
+            Console.WriteLine(o3(5000));
+            Console.ReadLine();
+        }
+
+        static void Main() {                                                                               //Q3
+           
+            {
+                GeneralManager g = new GeneralManager("value", "cleark", "abhi", 30000, 1);
+                Console.WriteLine(g.CalNetSalary());
+                Employee e = new CEO("dinesh", 32000.5m, 2);
+                Console.WriteLine(e.CalNetSalary());
+            }
+        }
+        public abstract class Employee
+        {
+            private string name;
+            private int empno;
+            private short deptno;
+            public decimal basic;
+            private static int auto;
+
+            public string Name
+            {
+                set
+                {
+                    if (value != null)
+                    {
+                        name = value;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Name Can not be null");
+                    }
+                }
+                get
+                {
+                    return name;
+                }
+            }
+            public int EmpNo
+            {
+                get
+                {
+                    return empno;
+                }
+            }
+            public short DeptNo
+            {
+                set
+                {
+                    if (value > 0)
+                    {
+                        deptno = value;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dept No must be greater than 0");
+                    }
+                }
+                get
+                {
+                    return deptno;
+                }
+            }
+            public abstract decimal Basic { set; get; }
+            public abstract decimal CalNetSalary();
+            public Employee(string name, decimal basic, short deptno)
+            {
+                this.Name = name;
+                this.Basic = basic;
+                this.DeptNo = deptno;
+                auto++;
+                this.empno = auto;
+            }
+        }
+        public class Manager : Employee
+        {
+            private string designation;
+            public override decimal Basic
+            {
+                set
+                {
+                    basic = value;
+                }
+                get
+                {
+                    return basic;
+                }
+            }
+            public string Designation
+            {
+                set
+                {
+                    if (value != null)
+                    {
+                        designation = value;
+                    }
+                    else
+                        Console.WriteLine("Designation Cant Be null");
+                }
+                get
+                {
+                    return designation;
+                }
+            }
+
+            public override decimal CalNetSalary()
+            {
+                return basic + 2000 + 2000;
+
+            }
+
+
+
+            public Manager(string designation, string name, decimal basic, short deptno) : base(name, basic, deptno)
+            {
+                this.Designation = designation;
+            }
+
+
+        }
+        public class GeneralManager : Manager
+        {
+            public string Perks { set; get; }
+            public GeneralManager(string perks, string designation, string name, decimal basic, short deptno) : base(designation, name, basic, deptno)
+            {
+                this.Perks = perks;
+            }
+        }
+        public class CEO : Employee
+        {
+            public override decimal Basic
+            {
+                get
+                {
+                    return basic;
+                }
+                set
+                {
+                    basic = value;
+                }
+            }
+
+            public override decimal CalNetSalary()
+            {
+                return Basic + 5000 + 10000 + 9000;
+
+            }
+
+
+
+            public CEO(string name, decimal basic, short deptno) : base(name, basic, deptno)
+            {
+
+            }
+        }
+    }
+
+
+
+
+}
+
+
+
+/*Write lambdas for the following functions :
+1. decimal SimpleInterest(decimal P, decimal N, decimal R) -> returns calculated SimpleInterest
+2. bool IsGreater(int a, int b) -> returns true if a is > b
+3. decimal GetBasic(Employee e) -> returns the Basic salary of the employee
+4. bool IsEven(int num) -> returns true if the number is an even number
+5. bool IsGreaterThan10000(Employee e) -> returns true if the Basic Salary is > 10000*/
